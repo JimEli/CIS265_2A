@@ -12,7 +12,7 @@
 * and 1 are used in English-speaking countries). The publisher code 
 * identifies the publisher (393 is the code for W. W. Norton). The item 
 * number is assigned by the publisher to identify a specific book (97950 
-* is the code for this book). An ISBN ends with a check digit that’s used 
+* is the code for this book). An ISBN ends with a check digit thatâ€™s used 
 * to verify the accuracy of the preceding digits. Write a program that 
 * breaks down an ISBN entered by the user:
 *   Enter ISBN: 978-0-393-97950-3
@@ -21,7 +21,7 @@
 *   Publisher code: 393
 *   Item number: 97950
 *   Check digit: 3
-* Note: The number of digits in each group may vary; you can’t assume that 
+* Note: The number of digits in each group may vary; you canâ€™t assume that 
 * groups have the lengths shown in this example. Test your program with 
 * actual ISBN values (usually found on the back cover of a book and on the 
 * copyright page).
@@ -65,7 +65,7 @@ bool checksum(char *group[], const char *checkDigit) {
 
 	// Loop through ISBN digits and calculate checksum.
 	for (int i = 0; i < 4; i++) 
-		for(char *pos = group[i]; *pos; pos++) 
+		for (char *pos = group[i]; *pos; pos++) 
 			if (isdigit(*pos))
 				sum += (*pos - '0') * ((digit++ & 1) ? 3 : 1);
 	// Compare checksum with check digit.
