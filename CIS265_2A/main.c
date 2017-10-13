@@ -108,9 +108,9 @@ int main(void) {
 	char isbn[24];	    // Holds user entered isbn.
 	char *isbnGroup[5]; // ISBN separate group codes.
 	// ISBN group titles.
-	const char *groupTitle[5] = { "GSI prefix", "Group identifier", "Publisher code", "Item number", "Check digit" };
+	static const char *groupTitle[5] = { "GSI prefix", "Group identifier", "Publisher code", "Item number", "Check digit" };
 	// Typical characters used as delimiters.
-	const char *delimiter = " !#$%&*+,-./:;@\\|";
+	static const char *delimiter = " !#$%&*+,-./:;@\\|";
 	int error = 0;      // Flags error when processing isbn.
 
 	// Enter an isbn.
