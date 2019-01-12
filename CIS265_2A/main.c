@@ -59,7 +59,8 @@
  * or 3, then those products are summed modulo 10 to give a value ranging 
  * from 0 to 9. Subtracted from 10, that leaves a result from 1 to 10.
  *************************************************************************/
-bool checksum(char *group[], const char *checkDigit) {
+bool checksum(char *group[], const char *checkDigit) 
+{
 	unsigned int digit = 0; // Counts digits in ISBN and used to toggle multiplier between 1 and 3.
 	unsigned int sum = 0;   // Checksum.
 
@@ -68,27 +69,33 @@ bool checksum(char *group[], const char *checkDigit) {
 		for (char *pos = group[i]; *pos; pos++) 
 			if (isdigit(*pos))
 				sum += (*pos - '0') * ((digit++ & 1) ? 3 : 1);
+
 	// Compare checksum with check digit.
 	if (10 - sum%10 == *checkDigit - '0')
 		return true; // Checksum valid.
+	
 	return false;
 }
 
 // Validate string characters as numeric.
-bool validate(const char* s) {
+bool validate(const char* s) 
+{
 	// Empty?
 	if (s == NULL || *s == '\0')
 		return false;
+
 	// Check for non-numeric chars.
 	while (*s != '\0' && *s != '\n')
 		if (!isdigit(*s++))
 			return false;
+
 	// Arriving here means only valid chars found.
 	return true;
 }
 
 // Trim whitespace from string.
-void trim(char* src) {
+void trim(char* src) 
+{
 	static const char *whiteSpace = " \n\r\t";
 	char *dest = src;
 
@@ -100,11 +107,13 @@ void trim(char* src) {
 			*dest++ = *src; // Skip this if whitespace.
 		src++;
 	}
+
 	*dest = '\0'; // Terminate string.
 }
 
 // Program starts here.
-int main(void) {
+int main(void) 
+{
 	char isbn[24];	    // Holds user entered isbn.
 	char *isbnGroup[5]; // ISBN separate group codes.
 	// ISBN group titles.
@@ -119,13 +128,15 @@ int main(void) {
 		fputs("Fatal program error!\n", stderr);
 		exit(EXIT_FAILURE);
 	}
-	else if (!strchr(isbn, '\n')) {
+	else if (!strchr(isbn, '\n')) 
+	{
 		// Input too long, eat remainder.
 		while (fgets(isbn, sizeof isbn, stdin) && !strchr(isbn, '\n'))
 			; // Empty body.
 		fputs("Too many characters input.\n", stdout);
 	}
-	else {
+	else 
+	{
 		// Trim whitespace from isbn string.
 		trim(isbn);
 
@@ -139,28 +150,33 @@ int main(void) {
 		for (int i = 0; i < 5; i++)
 			if (!validate(isbnGroup[i]))
 				error = INVALID_ISBN_CHARACTER;
+
 		// Validate isbn checksum.
 		if (!error)
 			if (!checksum(isbnGroup, isbnGroup[4]))
 				error = INVALID_ISBN_CHECKSUM;
 
 		// Check if an error was caught, and display isbn groups.
-		switch (error) {
-		case 0:
-			// No error, display isbn group info.
-			for (int i = 0; i < 5; i++)
-				if (isbnGroup[i] != NULL)
-					fprintf(stdout, "%s: %s\n", groupTitle[i], isbnGroup[i]);
-			break;
-		case INVALID_ISBN_CHARACTER:
-			fputs("Invalid character(s) found in ISBN.\n", stdout);
-			break;
-		case INVALID_ISBN_CHECKSUM:
-			fputs("An invalid ISBN checksum was found.\n", stdout);
-			break;
-		default:
-			fputs("An unknown error occurred. Try again.\n", stderr);
-			break;
+		switch (error) 
+		{
+			case 0:
+				// No error, display isbn group info.
+				for (int i = 0; i < 5; i++)
+					if (isbnGroup[i] != NULL)
+						fprintf(stdout, "%s: %s\n", groupTitle[i], isbnGroup[i]);
+				break;
+		
+			case INVALID_ISBN_CHARACTER:
+				fputs("Invalid character(s) found in ISBN.\n", stdout);
+				break;
+		
+			case INVALID_ISBN_CHECKSUM:
+				fputs("An invalid ISBN checksum was found.\n", stdout);
+				break;
+		
+			default:
+				fputs("An unknown error occurred. Try again.\n", stderr);
+				break;
 		}
 	}
 }
